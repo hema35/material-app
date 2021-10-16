@@ -2,14 +2,14 @@
 <form [formGroup]="formGroup">
 <!-- Input -->
 <mat-form-field class="w-100" floatLabel= "auto" appearance = "standard" color = "primary">
-  <input type="email" matInput placeholder="Enter Email" required = "required" formControlName="email"/>
+  <input type="email" matInput placeholder="Enter Email" required = "required" formControlName="email" [errorStateMatcher]="customErrorStateMatcher"/>
   <mat-label>Email</mat-label>
   <mat-hint align = "end">Up to 30 characters</mat-hint>
   <mat-icon>email</mat-icon>
 </mat-form-field>
 
 <mat-form-field class="w-100" floatLabel= "auto" appearance = "standard" color= "primary">
-  <input type="text" matInput placeholder="Enter Customer Name" required = "required" formControlName="customerName"/>
+  <input type="text" matInput placeholder="Enter Customer Name" required = "required" formControlName="customerName" [errorStateMatcher]="customErrorStateMatcher"/>
   <mat-label>Customer Name</mat-label>
   <mat-hint align = "end">Up to 30 characters</mat-hint>
   <mat-icon>person</mat-icon>
@@ -39,7 +39,7 @@
     <mat-option value="United States">United States</mat-option>
   </mat-select> -->
   <mat-form-field class="w-100" floatLabel= "auto" appearance = "standard" color= "primary">
-      <mat-select required= "required" placeholder = "Country" formControlName="country">
+      <mat-select required= "required" placeholder = "Country" formControlName="country" [errorStateMatcher]="customErrorStateMatcher">
         <mat-optgroup label = "A">
           <mat-option value="Afghanistan">Afghanistan</mat-option>
     <mat-option value="Australia">Australia</mat-option>

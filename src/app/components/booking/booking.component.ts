@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CountriesService } from 'src/app/services/countries.service';
-
+import { CustomErrorStateMatcher } from 'src/app/helpers/customErrorStateMatcher';
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.component.html',
@@ -10,6 +10,8 @@ import { CountriesService } from 'src/app/services/countries.service';
 export class BookingComponent implements OnInit {
 countries:any;
 formGroup: FormGroup;
+customErrorStateMatcher: CustomErrorStateMatcher = new CustomErrorStateMatcher();
+
   constructor(private countriesService:CountriesService) {
     this.formGroup = new FormGroup(
       {
