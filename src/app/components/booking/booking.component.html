@@ -2,7 +2,7 @@
 <form [formGroup]="formGroup">
   <!-- Input -->
   <mat-form-field class="w-100" floatLabel="auto" appearance="standard" color="primary">
-    <input type="email" matInput placeholder="Enter Email" formControlName="email" [errorStateMatcher]="customErrorStateMatcher" />
+    <input type="email" matInput placeholder="Enter Email" formControlName="email" />
     <mat-label>Email</mat-label>
     <mat-hint align="end">Up to 30 characters</mat-hint>
     <mat-icon>email</mat-icon>
