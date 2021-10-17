@@ -6,8 +6,8 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { BookingComponent } from './components/booking/booking.component';
-
-
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,8 +17,11 @@ import { BookingComponent } from './components/booking/booking.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MaterialModule
-
+    MaterialModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule
   ],
   providers: [],
   bootstrap: [AppComponent]
