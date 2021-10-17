@@ -1,56 +1,46 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CustomErrorStateMatcher } from 'src/app/helpers/customErrorStateMatcher';
+import { CitiesService } from 'src/app/services/cities.service';
 import { CountriesService } from 'src/app/services/countries.service';
 
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.component.html',
-  styleUrls: ['./booking.component.scss']
+  styleUrls: ['./booking.component.scss'],
 })
 export class BookingComponent implements OnInit {
-countries:any;
-formGroup: FormGroup;
-customErrorStateMatcher: CustomErrorStateMatcher = new CustomErrorStateMatcher();
-cities:any[]=[
-  {id:1, cityName:"Abudhabi"},
-  {id:2, cityName:"Abudhabi"},
-  {id:2, cityName:"Amsterdam"},
-  {id:3, cityName:"Berlin"},
-  {id:4, cityName:"Chicago"},
-  {id:5, cityName:"Doha"},
-  {id:6, cityName:"Dubai"},
-  {id:7, cityName:"Istanbul"},
-  {id:8, cityName:"Lasvegas"},
-  {id:9, cityName:"London"},
-  {id:10, cityName:"LosAngeles"},
-  {id:11, cityName:"Moscow"},
-  {id:12, cityName:"Newyork"},
-  {id:13, cityName:"Paris"},
-  {id:14, cityName:"SanFransico"},
-  {id:15, cityName:"Seoul"},
-  {id:16, cityName:"Singapore"},
-  {id:17, cityName:"Sydney"},
-  {id:18, cityName:"Tokyo"},
-  {id:19, cityName:"Toronto"},
-  {id:20, cityName:"Washington"},
-];
+  countries: any;
+  formGroup: FormGroup;
+  customErrorStateMatcher: CustomErrorStateMatcher =
+    new CustomErrorStateMatcher();
+  cities: any[] = [];
 
-  constructor(private countriesService:CountriesService) {
-    this.formGroup = new FormGroup(
-      {
-        email: new FormControl(null),
-        customerName: new FormControl(null),
-        country: new FormControl(null),
-        city: new FormControl(null)
-      }
-    )
-   }
+  constructor(
+    private countriesService: CountriesService,
+    citiesService: CitiesService
+  ) {
+    this.formGroup = new FormGroup({
+      email: new FormControl(null),
+      customerName: new FormControl(null),
+      country: new FormControl(null),
+      city: new FormControl(null),
+    });
+  }
 
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.countriesService.getCountries().subscribe(
       (response) => {
         this.countries = response;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    this.citiesService.getCities().subscribe(
+      (response) => {
+        this.cities = response;
       },
       (error) => {
         console.log(error);
