@@ -9,8 +9,8 @@ export class CitiesService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getCities():Observable<City[]>
+  getCities(searchText: string):Observable<City[]>
   {
-    return this.httpClient.get<City[]>("http://localhost:7000/cities");
+    return this.httpClient.get<City[]>(`http://localhost:7000/cities?cityName_like=^${searchText}`);
   }
 }

@@ -3,7 +3,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { CustomErrorStateMatcher } from 'src/app/helpers/customErrorStateMatcher';
 import { CitiesService } from 'src/app/services/cities.service';
 import { CountriesService } from 'src/app/services/countries.service';
-
+import { City } from 'src/app/models/City';
+import { tap, switchMap, debounceTime } from 'rxjs/operators';
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.component.html',
@@ -14,11 +15,12 @@ export class BookingComponent implements OnInit {
   formGroup: FormGroup;
   customErrorStateMatcher: CustomErrorStateMatcher =
     new CustomErrorStateMatcher();
-  cities: any[] = [];
+  cities: City[] = [];
+  isCitiesLoading:boolean = false;
 
   constructor(
     private countriesService: CountriesService,
-    citiesService: CitiesService
+    private citiesService: CitiesService
   ) {
     this.formGroup = new FormGroup({
       email: new FormControl(null),
@@ -38,7 +40,7 @@ export class BookingComponent implements OnInit {
       }
     );
 
-    this.citiesService.getCities().subscribe(
+    this.citiesService.getCities(this.formGroup.controls['city'].value).subscribe(
       (response) => {
         this.cities = response;
       },
@@ -46,6 +48,26 @@ export class BookingComponent implements OnInit {
         console.log(error);
       }
     );
+    //ngOnit
+    this.getFormControl("city").valueChanges
+    .pipe(
+      debounceTime(500),
+
+      //tap: do something before making http request
+      tap(()=>{
+        this.cities = [];
+        this.isCitiesLoading = true;
+      }),
+
+      //switchMap
+      switchMap((value:any)=>{
+        return this.citiesService.getCities(value);
+      })
+
+    ).subscribe((response)=>{
+      this.cities=response;
+      this.isCitiesLoading = false;
+    });
   }
   getFormControl(controlName: string): FormControl {
     return this.formGroup.get(controlName) as FormControl;

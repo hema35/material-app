@@ -43,6 +43,7 @@
         <mat-hint align="end">Choose or type a city</mat-hint>
         <mat-icon>explore</mat-icon>
         <mat-autocomplete #citiesAutocomplete= "matAutocomplete">
+          <mat-option *ngIf="isCitiesLoading">Loading...</mat-option>
           <mat-option *ngFor="let city of cities" value="city.cityName">{{city.cityName}}</mat-option>
 
         </mat-autocomplete>
