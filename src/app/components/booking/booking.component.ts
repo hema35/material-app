@@ -27,6 +27,7 @@ export class BookingComponent implements OnInit {
       customerName: new FormControl(null),
       country: new FormControl(null),
       city: new FormControl(null),
+      receiveNewsLetters: new FormControl(null),
     });
   }
 

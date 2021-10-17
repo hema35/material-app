@@ -8,6 +8,7 @@ import { MaterialModule } from './material/material.module';
 import { BookingComponent } from './components/booking/booking.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatCheckboxModule } from '@angular/material/checkbox';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +22,8 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]
