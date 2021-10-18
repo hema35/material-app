@@ -12,7 +12,17 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from "@angular/material-moment-adapter";
+import { from } from 'rxjs';
 
+export const MY_FORMATS = {
+  parse: {dateInput: 'LL'},
+  display: {
+    dateInput: 'LL',
+    monthYearLabel:'MMMM YYYY'
+  }
+};
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +42,11 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatDatepickerModule,
     MatNativeDateModule
   ],
-  providers: [],
+  providers: [
+    //{provide: MAT_DATE_LOCALE, useValue: "es-ES"}],
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    { provide: DateAdapter, useClass:MomentDateAdapter,
+     deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -29,6 +29,24 @@ export class BookingComponent implements OnInit {
   //date picker
   minDate: Date = new Date("1950-01-01");
   maxDate: Date = new Date("2010-12-31");
+  dateHint: string = "Choose date of birth";
+  startDate: Date = new Date("2002-01-02");
+
+
+  dateFilter(date:any)
+  {
+    return date && date.getDay() !== 0 &&date.getDay() !==6;
+  }
+
+  onDateChange(){
+    if(this.formGroup.value.dateOfBirth){
+      let date = new Date(this.formGroup.value.dateOfBirth);
+      this.dateHint = `You born on ${date.toString().substr(0,date.toString().indexOf(""))}`;
+
+    }else{
+      this.dateHint = "Choose date of birth";
+    }
+  }
 
   constructor(
     private countriesService: CountriesService,

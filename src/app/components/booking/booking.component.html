@@ -86,13 +86,16 @@
      <!-- datepicker -->
      <mat-form-field class="w-100">
        <mat-label>Date of Birth:</mat-label>
-       <input type="text" matInput [matDatepicker]="dobDatepicker" [min]= "minDate" [max]="maxDate">
+       <input type="text" matInput [matDatepicker]="dobDatepicker"   formControlName="dateOfBirth" (dateChange)="onDateChange()">
        <mat-datepicker-toggle matSuffix [for]="dobDatepicker">
         <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
        </mat-datepicker-toggle>
-       <mat-datepicker #dobDatepicker></mat-datepicker>
-
+       <mat-datepicker #dobDatepicker touchUi [startAt]="startDate" startView = "month"></mat-datepicker>
+       <mat-hint align = "end">{{dateHint}}</mat-hint>
      </mat-form-field>
+     <!-- [min]= "minDate" [max]="maxDate" -->
+     <!-- [matDatepickerFilter] = "dateFilter" -->
+     <!-- startView = month|year|multi-year -->
     </div>
   </div>
       <!-- Stroked -->
