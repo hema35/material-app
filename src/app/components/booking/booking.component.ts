@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { CustomErrorStateMatcher } from 'src/app/helpers/customErrorStateMatcher';
 import { CitiesService } from 'src/app/services/cities.service';
 import { CountriesService } from 'src/app/services/countries.service';
@@ -17,6 +17,14 @@ export class BookingComponent implements OnInit {
     new CustomErrorStateMatcher();
   cities: City[] = [];
   isCitiesLoading:boolean = false;
+  //checkbox group
+  hobbies: any[] = [
+    {id:1, hobbyName:"Music"},
+    {id:2, hobbyName:"Food"},
+    {id:3, hobbyName:"Travel"},
+    {id:4, hobbyName:"Pets"},
+    {id:5, hobbyName:"Hiking"},
+  ]
 
   constructor(
     private countriesService: CountriesService,
@@ -28,8 +36,44 @@ export class BookingComponent implements OnInit {
       country: new FormControl(null),
       city: new FormControl(null),
       receiveNewsLetters: new FormControl(null),
+      hobbies: new FormArray([]),
+      allHobbies: new FormControl(false),
+    });
+
+    //add form controls to form array
+    this.hobbies.forEach(()=>{
+      (this.hobbiesFormArray.push(new FormControl(false)));
     });
   }
+
+  get hobbiesFormArray(): FormArray{
+    return this.formGroup.get("hobbies") as FormArray;
+  }
+
+  //executes when the user clicks on all checkbox
+  onAllHobbiesCheckBoxChange(){
+    this.hobbiesFormArray.controls.forEach((hobby, index: any) => {
+      this.hobbiesFormArray.at(index).patchValue(this.formGroup.value.allHobbies);
+
+    });
+
+  }
+
+  //returns true,if all hobby checkboxes are checked
+  allHobbiesSelected(): boolean {
+    return true; // this.hobbiesFormArray.value.every(val => val === true);
+  }
+
+  noHobbiesSelected(): boolean {
+    return false;// this.hobbiesFormArray.value.every(val => val === false);
+  }
+  onHobbyChange(i: any){
+    if(this.allHobbiesSelected())
+      this.formGroup.patchValue({allHobbies: true});
+    else
+      this.formGroup.patchValue({allHobbies: false});
+  }
+
 
   ngOnInit(): void {
     this.countriesService.getCountries().subscribe(
@@ -41,7 +85,7 @@ export class BookingComponent implements OnInit {
       }
     );
 
-    this.citiesService.getCities(this.formGroup.controls['city'].value).subscribe(
+    this.citiesService.getCities(this.formGroup.controls.city.value).subscribe(
       (response) => {
         this.cities = response;
       },
