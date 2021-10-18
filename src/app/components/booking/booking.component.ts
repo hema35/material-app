@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CustomErrorStateMatcher } from 'src/app/helpers/customErrorStateMatcher';
 import { CitiesService } from 'src/app/services/cities.service';
 import { CountriesService } from 'src/app/services/countries.service';
@@ -38,6 +38,7 @@ export class BookingComponent implements OnInit {
       receiveNewsLetters: new FormControl(null),
       hobbies: new FormArray([]),
       allHobbies: new FormControl(false),
+      gender: new FormControl(null, [Validators.required])
     });
 
     //add form controls to form array
@@ -138,6 +139,13 @@ export class BookingComponent implements OnInit {
       case 'country': {
         if (errorType === 'required') return 'you must select ';
         else return '';
+      }
+
+      case 'gender': {
+        if (errorType === 'required')
+        return 'Gender must be male or female';
+        else
+         return '';
       }
 
       default:
