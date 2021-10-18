@@ -61,7 +61,9 @@ export class BookingComponent implements OnInit {
       hobbies: new FormArray([]),
       allHobbies: new FormControl(false),
       gender: new FormControl(null, [Validators.required]),
-      dateOfBirth: new FormControl(null)
+      dateOfBirth: new FormControl(null),
+      studyPeriodStart: new FormControl(null),
+      studyPeriodEnd: new FormControl(null),
     });
 
     //add form controls to form array
