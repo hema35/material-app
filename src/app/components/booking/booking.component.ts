@@ -26,6 +26,10 @@ export class BookingComponent implements OnInit {
     {id:5, hobbyName:"Hiking"},
   ]
 
+  //date picker
+  minDate: Date = new Date("1950-01-01");
+  maxDate: Date = new Date("2010-12-31");
+
   constructor(
     private countriesService: CountriesService,
     private citiesService: CitiesService
@@ -38,7 +42,8 @@ export class BookingComponent implements OnInit {
       receiveNewsLetters: new FormControl(null),
       hobbies: new FormArray([]),
       allHobbies: new FormControl(false),
-      gender: new FormControl(null, [Validators.required])
+      gender: new FormControl(null, [Validators.required]),
+      dateOfBirth: new FormControl(null)
     });
 
     //add form controls to form array

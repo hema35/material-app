@@ -1,6 +1,8 @@
 <h4>New Booking</h4>
 <form [formGroup]="formGroup">
-  <!-- Input -->
+  <div class="flex">
+    <div class="box-1">
+       <!-- Input -->
   <mat-form-field class="w-100" floatLabel="auto" appearance="standard" color="primary">
     <input type="email" matInput placeholder="Enter Email" formControlName="email" />
     <mat-label>Email</mat-label>
@@ -66,6 +68,8 @@
         </div>
       </div>
 
+      //radiobutton
+
       <div class="ml mt mb">
         <mat-radio-group formControlName="gender">
           <mat-radio-button value = "male" class="mr">Male</mat-radio-button>
@@ -75,8 +79,22 @@
           ="getErrorMessage('gender','required')"></mat-error>
         </mat-radio-group>
       </div>
+    </div>
+    <!-- end of box -->
 
+    <div class="box-2">
+     <!-- datepicker -->
+     <mat-form-field class="w-100">
+       <mat-label>Date of Birth:</mat-label>
+       <input type="text" matInput [matDatepicker]="dobDatepicker" [min]= "minDate" [max]="maxDate">
+       <mat-datepicker-toggle matSuffix [for]="dobDatepicker">
+        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+       </mat-datepicker-toggle>
+       <mat-datepicker #dobDatepicker></mat-datepicker>
 
+     </mat-form-field>
+    </div>
+  </div>
       <!-- Stroked -->
       <div class="mb mt">
         <button mat-stroked-button color="primary" class="mr" type="submit">Save</button>
@@ -87,6 +105,4 @@
       <div>
         {{formGroup.value|json}}
       </div>
-
-
 </form>
