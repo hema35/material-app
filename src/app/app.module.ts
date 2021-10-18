@@ -15,6 +15,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from "@angular/material-moment-adapter";
 import { from } from 'rxjs';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 export const MY_FORMATS = {
   parse: {dateInput: 'LL'},
@@ -40,7 +41,8 @@ export const MY_FORMATS = {
     MatCheckboxModule,
     MatRadioModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatButtonToggleModule
   ],
   providers: [
     //{provide: MAT_DATE_LOCALE, useValue: "es-ES"}],
