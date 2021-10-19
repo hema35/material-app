@@ -4,7 +4,9 @@ import { CustomErrorStateMatcher } from 'src/app/helpers/customErrorStateMatcher
 import { CitiesService } from 'src/app/services/cities.service';
 import { CountriesService } from 'src/app/services/countries.service';
 import { City } from 'src/app/models/City';
-import { tap, switchMap, debounceTime } from 'rxjs/operators';
+import { tap, switchMap, debounceTime, map, startWith } from 'rxjs/operators';
+import { Fruit } from 'src/app/models/fruit';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.component.html',
@@ -16,35 +18,34 @@ export class BookingComponent implements OnInit {
   customErrorStateMatcher: CustomErrorStateMatcher =
     new CustomErrorStateMatcher();
   cities: City[] = [];
-  isCitiesLoading:boolean = false;
+  isCitiesLoading: boolean = false;
   //checkbox group
   hobbies: any[] = [
-    {id:1, hobbyName:"Music"},
-    {id:2, hobbyName:"Food"},
-    {id:3, hobbyName:"Travel"},
-    {id:4, hobbyName:"Pets"},
-    {id:5, hobbyName:"Hiking"},
-  ]
+    { id: 1, hobbyName: 'Music' },
+    { id: 2, hobbyName: 'Food' },
+    { id: 3, hobbyName: 'Travel' },
+    { id: 4, hobbyName: 'Pets' },
+    { id: 5, hobbyName: 'Hiking' },
+  ];
 
   //date picker
-  minDate: Date = new Date("1950-01-01");
-  maxDate: Date = new Date("2010-12-31");
-  dateHint: string = "Choose date of birth";
-  startDate: Date = new Date("2002-01-02");
+  minDate: Date = new Date('1950-01-01');
+  maxDate: Date = new Date('2010-12-31');
+  dateHint: string = 'Choose date of birth';
+  startDate: Date = new Date('2002-01-02');
 
-
-  dateFilter(date:any)
-  {
-    return date && date.getDay() !== 0 &&date.getDay() !==6;
+  dateFilter(date: any) {
+    return date && date.getDay() !== 0 && date.getDay() !== 6;
   }
 
-  onDateChange(){
-    if(this.formGroup.value.dateOfBirth){
+  onDateChange() {
+    if (this.formGroup.value.dateOfBirth) {
       let date = new Date(this.formGroup.value.dateOfBirth);
-      this.dateHint = `You born on ${date.toString().substr(0,date.toString().indexOf(""))}`;
-
-    }else{
-      this.dateHint = "Choose date of birth";
+      this.dateHint = `You born on ${date
+        .toString()
+        .substr(0, date.toString().indexOf(''))}`;
+    } else {
+      this.dateHint = 'Choose date of birth';
     }
   }
 
@@ -65,28 +66,39 @@ export class BookingComponent implements OnInit {
       studyPeriodStart: new FormControl(null),
       studyPeriodEnd: new FormControl(null),
       expertiseLevel: new FormControl(null),
+      fruits: new FormControl(null),
     });
 
     //add form controls to form array
-    this.hobbies.forEach(()=>{
-      (this.hobbiesFormArray.push(new FormControl(false)));
+    this.hobbies.forEach(() => {
+      this.hobbiesFormArray.push(new FormControl(false));
     });
 
-     //chips
-     this.AllCountriesClicked();
+    //chips
+    this.AllCountriesClicked();
+
+    //chips with autocomplete
+    this.filteredFruits = this.getFormControl("fruits").valueChanges.pipe(startWith(""),
+    map((fruit: string|null)=>{
+      return fruit?
+      (()=>{
+        return this.allFruits.filter(fruitObj => fruitObj.name.toLowerCase().indexOf(fruit.toLowerCase())===0);
+      } )()
+      : this.allFruits.slice();
+    }));
   }
 
-  get hobbiesFormArray(): FormArray{
-    return this.formGroup.get("hobbies") as FormArray;
+  get hobbiesFormArray(): FormArray {
+    return this.formGroup.get('hobbies') as FormArray;
   }
 
   //executes when the user clicks on all checkbox
-  onAllHobbiesCheckBoxChange(){
+  onAllHobbiesCheckBoxChange() {
     this.hobbiesFormArray.controls.forEach((hobby, index: any) => {
-      this.hobbiesFormArray.at(index).patchValue(this.formGroup.value.allHobbies);
-
+      this.hobbiesFormArray
+        .at(index)
+        .patchValue(this.formGroup.value.allHobbies);
     });
-
   }
 
   //returns true,if all hobby checkboxes are checked
@@ -95,18 +107,13 @@ export class BookingComponent implements OnInit {
   }
 
   noHobbiesSelected(): boolean {
-    return false;// this.hobbiesFormArray.value.every(val => val === false);
+    return false; // this.hobbiesFormArray.value.every(val => val === false);
   }
-  onHobbyChange(i: any){
-    if(this.allHobbiesSelected())
-      this.formGroup.patchValue({allHobbies: true});
-    else
-      this.formGroup.patchValue({allHobbies: false});
+  onHobbyChange(i: any) {
+    if (this.allHobbiesSelected())
+      this.formGroup.patchValue({ allHobbies: true });
+    else this.formGroup.patchValue({ allHobbies: false });
   }
-
-
-
-
 
   ngOnInit(): void {
     this.countriesService.getCountries().subscribe(
@@ -127,25 +134,25 @@ export class BookingComponent implements OnInit {
       }
     );
     //ngOnit
-    this.getFormControl("city").valueChanges
-    .pipe(
-      debounceTime(500),
+    this.getFormControl('city')
+      .valueChanges.pipe(
+        debounceTime(500),
 
-      //tap: do something before making http request
-      tap(()=>{
-        this.cities = [];
-        this.isCitiesLoading = true;
-      }),
+        //tap: do something before making http request
+        tap(() => {
+          this.cities = [];
+          this.isCitiesLoading = true;
+        }),
 
-      //switchMap
-      switchMap((value:any)=>{
-        return this.citiesService.getCities(value);
-      })
-
-    ).subscribe((response)=>{
-      this.cities=response;
-      this.isCitiesLoading = false;
-    });
+        //switchMap
+        switchMap((value: any) => {
+          return this.citiesService.getCities(value);
+        })
+      )
+      .subscribe((response) => {
+        this.cities = response;
+        this.isCitiesLoading = false;
+      });
   }
   getFormControl(controlName: string): FormControl {
     return this.formGroup.get(controlName) as FormControl;
@@ -174,10 +181,8 @@ export class BookingComponent implements OnInit {
       }
 
       case 'gender': {
-        if (errorType === 'required')
-        return 'Gender must be male or female';
-        else
-         return '';
+        if (errorType === 'required') return 'Gender must be male or female';
+        else return '';
       }
 
       default:
@@ -185,9 +190,8 @@ export class BookingComponent implements OnInit {
     }
   }
 
-  onOKClick()
-  {
-    console.log("ok chip clicked");
+  onOKClick() {
+    console.log('ok chip clicked');
   }
 
   //chips
@@ -195,33 +199,52 @@ export class BookingComponent implements OnInit {
   UK: boolean = false;
   USA: boolean = false;
   banks: any[] = [];
-  banksOfUK: any[]= [
-    {bankName: "HSBC", countryName: "UK"},
-    {bankName: "Royal Bank of Scotland", countryName: "UK"}
+  banksOfUK: any[] = [
+    { bankName: 'HSBC', countryName: 'UK' },
+    { bankName: 'Royal Bank of Scotland', countryName: 'UK' },
   ];
-  banksOfUSA: any[]= [
-    {bankName: "JP Morgan Chase", countryName: "USA"},
-    {bankName: "Bank of America", countryName: "USA"}
+  banksOfUSA: any[] = [
+    { bankName: 'JP Morgan Chase', countryName: 'USA' },
+    { bankName: 'Bank of America', countryName: 'USA' },
   ];
 
-  AllCountriesClicked(){
-    this.banks = [...this.banksOfUK,...this.banksOfUSA];
-   this.All = true;
-   this.UK = false;
-   this.USA = false;
+  AllCountriesClicked() {
+    this.banks = [...this.banksOfUK, ...this.banksOfUSA];
+    this.All = true;
+    this.UK = false;
+    this.USA = false;
   }
 
-  UKClicked(){
+  UKClicked() {
     this.banks = [...this.banksOfUK];
     this.All = false;
     this.UK = true;
     this.USA = false;
   }
 
-  USAClicked(){
+  USAClicked() {
     this.banks = [...this.banksOfUSA];
     this.All = false;
     this.UK = false;
     this.USA = true;
   }
+
+  //chips with autocomplete
+  allFruits: Fruit[] = [
+    {name: "Apple"},
+    {name: "Apricot"},
+    {name: "Banana"},
+    {name: "Blueberry"},
+    {name: "Grape"},
+    {name: "HOneydew"},
+    {name: "Kiwi"},
+    {name: "Lemon"},
+    {name: "Mandarin"},
+    {name: "Mango"},
+    {name: "Nectarine"},
+    {name: "Orange"},
+    {name: "strawberry"},
+    {name: "Watermelon"}
+  ];
+  filteredFruits:Observable<Fruit[]>;
 }
