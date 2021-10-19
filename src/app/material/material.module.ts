@@ -6,6 +6,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 const MaterialComponents = [MatButtonModule,
 MatIconModule,
@@ -13,7 +14,8 @@ MatInputModule,
 MatSelectModule,
 MatChipsModule,
 MatTableModule,
-MatPaginatorModule
+MatPaginatorModule,
+MatSortModule
 ];
 
 @NgModule({

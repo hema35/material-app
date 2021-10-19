@@ -1,19 +1,19 @@
 <h2>Bookings List</h2>
 <form>
   <div>
-    <table mat-table [dataSource]= "bookings" class="w-100">
+    <table mat-table [dataSource]= "bookings" class="w-100" matSort>
       <ng-container matColumnDef="customerName" class="w-100">
-        <th mat-header-cell *matHeaderCellDef>Customer Name</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Customer Name</th>
         <td mat-cell *matCellDef="let booking" class="w-25">{{booking.customerName}}</td>
       </ng-container>
 
       <ng-container matColumnDef="location">
-        <th mat-header-cell *matHeaderCellDef>Location</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
         <td mat-cell *matCellDef="let booking" class="w-25">{{booking.Location}}</td>
       </ng-container>
 
       <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
         <td mat-cell *matCellDef="let booking" class="w-25">{{booking.Date}}</td>
       </ng-container>
 
