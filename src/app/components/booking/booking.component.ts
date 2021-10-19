@@ -71,6 +71,9 @@ export class BookingComponent implements OnInit {
     this.hobbies.forEach(()=>{
       (this.hobbiesFormArray.push(new FormControl(false)));
     });
+
+     //chips
+     this.AllCountriesClicked();
   }
 
   get hobbiesFormArray(): FormArray{
@@ -100,6 +103,9 @@ export class BookingComponent implements OnInit {
     else
       this.formGroup.patchValue({allHobbies: false});
   }
+
+
+
 
 
   ngOnInit(): void {
@@ -182,5 +188,40 @@ export class BookingComponent implements OnInit {
   onOKClick()
   {
     console.log("ok chip clicked");
+  }
+
+  //chips
+  All: boolean = true;
+  UK: boolean = false;
+  USA: boolean = false;
+  banks: any[] = [];
+  banksOfUK: any[]= [
+    {bankName: "HSBC", countryName: "UK"},
+    {bankName: "Royal Bank of Scotland", countryName: "UK"}
+  ];
+  banksOfUSA: any[]= [
+    {bankName: "JP Morgan Chase", countryName: "USA"},
+    {bankName: "Bank of America", countryName: "USA"}
+  ];
+
+  AllCountriesClicked(){
+    this.banks = [...this.banksOfUK,...this.banksOfUSA];
+   this.All = true;
+   this.UK = false;
+   this.USA = false;
+  }
+
+  UKClicked(){
+    this.banks = [...this.banksOfUK];
+    this.All = false;
+    this.UK = true;
+    this.USA = false;
+  }
+
+  USAClicked(){
+    this.banks = [...this.banksOfUSA];
+    this.All = false;
+    this.UK = false;
+    this.USA = true;
   }
 }
