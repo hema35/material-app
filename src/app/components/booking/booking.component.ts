@@ -178,4 +178,9 @@ export class BookingComponent implements OnInit {
         return '';
     }
   }
+
+  onOKClick()
+  {
+    console.log("ok chip clicked");
+  }
 }
