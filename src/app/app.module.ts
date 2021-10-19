@@ -16,6 +16,7 @@ import { MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS } from '@angular/materia
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from "@angular/material-moment-adapter";
 import { from } from 'rxjs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { BookingsListComponent } from './components/bookings-list/bookings-list.component';
 
 export const MY_FORMATS = {
   parse: {dateInput: 'LL'},
@@ -27,7 +28,8 @@ export const MY_FORMATS = {
 @NgModule({
   declarations: [
     AppComponent,
-    BookingComponent
+    BookingComponent,
+    BookingsListComponent
   ],
   imports: [
     BrowserModule,
