@@ -125,6 +125,13 @@
         <button mat-stroked-button color="accent" class="mr" type="button" >Cancel</button>
         <button mat-stroked-button color="warn" class="mr" type="button">Delete</button>
       </div>
+     <!-- Chips created -->
+      <div>
+        <mat-chip-list>
+          <mat-chip color = "primary" selected (click)="onOKClick()">OK</mat-chip>
+          <mat-chip color = "warn" selected>cancel</mat-chip>
+        </mat-chip-list>
+      </div>
 
       <div>
         {{formGroup.value|json}}
