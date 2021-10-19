@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CustomErrorStateMatcher } from 'src/app/helpers/customErrorStateMatcher';
 import { CitiesService } from 'src/app/services/cities.service';
@@ -6,7 +6,9 @@ import { CountriesService } from 'src/app/services/countries.service';
 import { City } from 'src/app/models/City';
 import { tap, switchMap, debounceTime, map, startWith } from 'rxjs/operators';
 import { Fruit } from 'src/app/models/fruit';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
+import { COMMA, ENTER} from '@angular/cdk/keycodes';
+
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.component.html',
@@ -247,4 +249,38 @@ export class BookingComponent implements OnInit {
     {name: "Watermelon"}
   ];
   filteredFruits:Observable<Fruit[]>;
+  fruits: Fruit[] = [
+    {name:"Orange"}
+  ];
+
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+
+  @ViewChild("fruitInput") fruitInput: ElementRef<HTMLInputElement>;
+
+  //when the user presses any key like enter
+  add(event: any):void
+  {
+   //add textbox value as chip
+   if((event.value || "").trim())
+   {
+     this.fruits.push({ name: event.value.trim()});
+     this.formGroup.patchValue({fruits:null});
+     this.fruitInput.nativeElement.value = "";
+
+   }
+  }
+//when the user clicks an item in the auto complete
+  selected(event: any){
+    this.fruits.push({name: event.option.viewValue});
+    this.formGroup.patchValue({fruits:null});
+    this.fruitInput.nativeElement.value = "";
+
+  }
+//when the user clicks on remove button for the chip
+  remove(fruit: any){
+    const index = this.fruits.indexOf(fruit);
+    if(index>=0){
+      this.fruits.splice(index, 1);
+    }
+  }
 }
