@@ -16,6 +16,8 @@ export class BookingsListComponent implements OnInit {
   columnsToDisplay: string[] = ['customerName','location','date','actions'];
   @ViewChild(MatPaginator) paginator:MatPaginator;
   @ViewChild(MatSort) sort:MatSort;
+  rows: Booking[]=[];
+  isLoadingCompleted: boolean=false;
 
   constructor(private bookingsService: BookingsService) { }
 
@@ -30,6 +32,14 @@ export class BookingsListComponent implements OnInit {
 
         //sort
         this.bookings.sort = this.sort;
+
+        //footer
+        this.rows = response;
+
+        //isLoadingcompleted
+
+        this.isLoadingCompleted = true;
+
       }, (error) =>
       {
         console.log(error);
