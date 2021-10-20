@@ -27,8 +27,12 @@
         </td>
       </ng-container>
 
+     <!-- loading/progress -->
       <<ng-container matColumnDef="loading">
-        <td mat-footer-cell *matFooterCellDef class="text-center text-italic" colspan="6">{{bookingLoadingStatus}}</td>
+        <td mat-footer-cell *matFooterCellDef class="text-center text-italic" colspan="6">
+          <div [ngClass]="{'hidden':isError}">
+            <mat-spinner diameter="40" class="margin-auto"></mat-spinner></div>
+          {{bookingLoadingStatus}}</td>
       </ng-container>
 
       <!-- header row -->
