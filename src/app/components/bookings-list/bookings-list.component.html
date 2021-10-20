@@ -1,6 +1,6 @@
 <h2>Bookings List</h2>
 <form>
-  <div>
+  <div class="table-container">
     <table mat-table [dataSource]= "bookings" class="w-100" matSort>
       <ng-container matColumnDef="customerName" class="w-100">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Customer Name</th>
@@ -27,12 +27,17 @@
         </td>
       </ng-container>
 
+      <<ng-container matColumnDef="loading">
+        <td mat-footer-cell *matFooterCellDef class="text-center text-italic" colspan="6">{{bookingLoadingStatus}}</td>
+      </ng-container>
+
       <!-- header row -->
-      <tr mat-header-row *matHeaderRowDef= "columnsToDisplay"></tr>
+      <tr mat-header-row *matHeaderRowDef= "columnsToDisplay;sticky:true"></tr>
       <tr mat-row *matRowDef = "let booking; columns: columnsToDisplay"></tr>
 
       <!-- footer row -->
-      <tr mat-footer-row *matFooterRowDef="['customerName','date']" class="text-italic font-weight-bold" [ngClass]="{'hidden':!isLoadingCompleted}"></tr>
+      <tr mat-footer-row *matFooterRowDef="['customerName','date'];sticky:true" class="text-italic font-weight-bold" [ngClass]="{'hidden':!isLoadingCompleted}"></tr>
+      <tr mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hidden':isLoadingCompleted}"> </tr>
 
 
     </table>
